@@ -36,10 +36,12 @@ function renderToys(element) {
       toyImgSrc.className = 'toy-avatar'
 
     let toyLikeP = document.createElement('p')
-
-    let toyLikeBtn = document.createElement('button')
+      let likeCount = 0
+      
+      let toyLikeBtn = document.createElement('button')
       toyLikeBtn.className = 'like-btn'
       toyLikeBtn.innerText = "Like <3"
+      toyLikeBtn.addEventListener("click", () =>  toyLikeP.innerText = `${likeCount += 1} Like(s)`)
 
     newDiv.classList += 'card'
     newDiv.append(toyName, toyImgSrc, toyLikeP, toyLikeBtn)
