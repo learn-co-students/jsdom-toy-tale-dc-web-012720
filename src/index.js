@@ -25,20 +25,20 @@ function fetchToys() {
 
 function renderToys(element) {
   let toyCollectDiv = document.getElementById('toy-collection')
-  
+
     let newDiv = document.createElement('div')
 
     newDiv.dataset.id = element.id
     let toyName = document.createElement('h2')
       toyName.innerText = element.name
-      
+
     let toyImgSrc = document.createElement('img')
       toyImgSrc.src = element.image
       toyImgSrc.className = 'toy-avatar'
 
     let toyLikeP = document.createElement('p')
       toyLikeP.innerText = `${element.likes}`
-      
+
     let toyLikeBtn = document.createElement('button')
       toyLikeBtn.dataset.id = element.id
       toyLikeBtn.className = 'like-btn'
@@ -52,14 +52,14 @@ function renderToys(element) {
 
 function processNewToy(event) {
   event.preventDefault()
-  debugger;
+
   fetch('http://localhost:3000/toys', {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json"
     },
-    
+
     body: JSON.stringify({
       "name": event.target.name.value,
       "image": event.target.image.value,
@@ -71,7 +71,7 @@ function processNewToy(event) {
 }
 
 function increaseLikes(event) {
-  event.preventDefault()
+
   let toyLikeId = event.currentTarget.dataset.id
   // document.getElementById("myDIV").querySelectorAll(".example")
   let element = event.target.parentElement
@@ -83,11 +83,20 @@ function increaseLikes(event) {
       "Content-Type": "application/json",
       Accept: "application/json"
     },
-    
+
     body: JSON.stringify({
       "likes": newLikes
     })
   })
   .then(resp => resp.json())
-  .then(resp => renderToys(resp))
+  .then(resp => addLikes(resp))//renderToys(resp))
+}
+
+function addLikes(element) {
+
+  console.log(element.likes)
+
+  let divChoice = document.querySelectorAll('div.card')[element.id - 1]
+
+  divChoice.children[2].innerText = element.likes
 }
